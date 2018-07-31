@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+		"module": "commonjs",
+		"target": "es2016",
+		"baseUrl": "src",
+		"experimentalDecorators": true
+	},
+	"exclude": [
+		"node_modules",
+		"**/node_modules/*"
+	]
+
+}
