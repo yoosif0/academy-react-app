@@ -2,15 +2,29 @@
 
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { unpersistMyInfo } from '../services/persistence';
 
-const NavBarLink = ({to, label }) => (
+const NavBarLink = ({ to, label }) => (
     <li className="nav-item">
         <NavLink to={to} activeClassName="active" className="nav-link">{label}</NavLink>
     </li>
 )
 
 
-class Navbar extends Component {
+const mapDispatchToProps = dispatch => ({
+    loggedOut: () => dispatch({ type: 'LOGGED_OUT' }),
+})
+
+const mapStateToProps = state => ({
+    isAuthenticated: state.isAuthenticated
+})
+
+class PNavbar extends Component {
+    logout = () => {
+        this.props.loggedOut()
+        unpersistMyInfo()
+    }
     render() {
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -23,7 +37,17 @@ class Navbar extends Component {
                     <ul className="navbar-nav mr-auto">
                         <NavBarLink to="/login" label="Login" />
                         <NavBarLink to="/signup" label="Signup" />
+                        <NavBarLink to="/profile" label="My Profile" />
                     </ul>
+                    {
+                        this.props.isAuthenticated &&
+                        <ul className="navbar-nav ml-auto mr-5">
+                            <li className="nav-item" onClick={this.logout}>
+                                <NavLink to="login" activeClassName="active" className="nav-link">Logout</NavLink>
+                            </li>
+                        </ul>
+                    }
+
                 </div>
             </nav>
 
@@ -31,4 +55,5 @@ class Navbar extends Component {
     }
 }
 
+const Navbar = connect(mapStateToProps, mapDispatchToProps)(PNavbar)
 export default Navbar;

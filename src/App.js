@@ -4,9 +4,18 @@ import Navbar from './components/layout/Navbar';
 import Signup from './components/routes/Signup';
 import Login from './components/routes/Login';
 import { BrowserRouter, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import { PrivateRoute } from './components/routing-utils/PrivateRoute';
+import MyProfile from './components/routes/MyProfile';
+import { connect } from 'react-redux';
 
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.isAuthenticated
+  }
+}
 
-class App extends Component {
+class PApp extends Component {
   render() {
     return (
       <BrowserRouter>
@@ -14,10 +23,13 @@ class App extends Component {
           <Navbar />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
+          < PrivateRoute authed={this.props.isAuthenticated} path="/profile" component={MyProfile} />
+          <ToastContainer />
         </div>
       </BrowserRouter>
     );
   }
 }
 
+const App = connect(mapStateToProps, {})(PApp)
 export default App;
