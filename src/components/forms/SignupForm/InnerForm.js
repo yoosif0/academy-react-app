@@ -4,18 +4,23 @@ import ReCAPTCHA from "react-google-recaptcha"
 import { DefaultInput } from '../../ui-inputs/DefaultInput';
 import { SubmitButton } from '../../ui-inputs/SubmitButton';
 
+let recaptchaInstance;
 
 export const InnerForm = ({
     values,
     errors,
     touched,
-    handleChange,
-    handleBlur,
     handleSubmit,
     isSubmitting,
     dirty,
     setFieldValue
-}) => (
+}) => {
+    if(errors.recaptchaExpired) {
+        recaptchaInstance.reset()
+        errors.recaptchaExpired = false
+    }
+
+    return (
         <form onSubmit={handleSubmit}>
             <DefaultInput label="Name">
                 <Field type="text" name="name" className="form-control" />
@@ -32,8 +37,12 @@ export const InnerForm = ({
             <DefaultInput label="Confirm Password">
                 <Field type="password" name="passwordConfirm" className="form-control" />
             </DefaultInput>
-            <ReCAPTCHA name="recaptcha" sitekey="6Legp2EUAAAAAKZhVvBOIj-d6mbHGwrWBfPEoiMX" onChange={(value) => setFieldValue("recaptcha", value)}
+            <ReCAPTCHA 
+            ref={el => {recaptchaInstance = el}}
+            name="recaptcha" sitekey="6Legp2EUAAAAAKZhVvBOIj-d6mbHGwrWBfPEoiMX" onChange={(value) => setFieldValue("recaptcha", value)}
             />
-            <SubmitButton disabled={!dirty || isSubmitting || Object.keys(errors).length}/>
+            <SubmitButton disabled={!dirty || isSubmitting || Object.keys(errors).length} />
         </form>
+
     );
+}

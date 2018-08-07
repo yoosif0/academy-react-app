@@ -21,9 +21,11 @@ class PApp extends Component {
       <BrowserRouter>
         <div>
           <Navbar />
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
-          < PrivateRoute authed={this.props.isAuthenticated} path="/profile" component={MyProfile} />
+          <div className="container">
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            < PrivateRoute authed={this.props.isAuthenticated} path="/profile" component={MyProfile} />
+          </div>
           <ToastContainer />
         </div>
       </BrowserRouter>
