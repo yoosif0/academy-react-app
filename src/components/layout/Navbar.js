@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { unpersistMyInfo } from '../../services/persistence';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -55,7 +55,5 @@ class PNavbar extends Component {
 
 const Navbar = compose(
     connect(mapStateToProps, mapDispatchToProps),
-    withRouter,
-
 )(PNavbar)
 export default Navbar;

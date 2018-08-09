@@ -18,7 +18,7 @@ export const ApiService =  {
         return axios.put(`users/${id}/info`, item, {headers: getAuthHeader()})
     },
 
-    getUser(id) {
-        return axios.get(`users/${id}`, {headers: getAuthHeader()})
+    getUser(id, cancelToken) {
+        return axios.get(`users/${id}`, {headers: getAuthHeader(), cancelToken})
     }
 }
