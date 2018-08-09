@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
+import { EnhancedSignupForm } from '../forms/SignupForm/EnhancedSignupForm';
+import { Title } from '../text/Title';
+
+
+
 
 class Signup extends Component {
+
   render() {
     return (
-      <h1> Signup Route </h1>
+      <div>
+        <Title> Signup Route </Title>
+        <EnhancedSignupForm />
+      </div>
     );
   }
 }

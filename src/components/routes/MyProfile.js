@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { Title } from '../text/Title';
 
 class MyProfile extends Component {
   render() {
     return (
-      <h1> My Profile </h1>
+      <Title> My Profile Route </Title>
     );
   }
 }
