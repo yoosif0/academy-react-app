@@ -17,7 +17,7 @@ const mapDispatchToProps = dispatch => ({
 export const EnhancedSignupForm = compose(
   connect(null, mapDispatchToProps),
   withFormik({
-    mapPropsToValues: props => ({ name: 'Ahmed', email: 'ahmed@test.com', password: '1234567a', passwordConfirm: '1234567a' }),
+    mapPropsToValues: props => ({ name: '', email: '', password: '', passwordConfirm: '' }),
     validationSchema: Yup.object().shape({
       name: Yup.string().min(3, 'Name is tiny').max(20, 'Name is so huge').required('Name is required'),
       email: Yup.string().email('Email is invalid').required('Email is required'),
@@ -29,12 +29,11 @@ export const EnhancedSignupForm = compose(
       return ApiService.signup({email: values.email, password:values.password, name: values.name, 'g-recaptcha-response': values.recaptcha}).then(payload=>{
         setSubmitting(false)
         toast.success("Signed up successfully")
-        console.log(payload)
         props.loggedIn(payload)
         persistMyInfo(payload)
 
       }).catch(err=>{
-        console.log(err)
+        setErrors({recaptchaExpired:true})
         setSubmitting(false)
         toast.error(err.data && err.data.msg ? err.data.msg : 'Error')
       })

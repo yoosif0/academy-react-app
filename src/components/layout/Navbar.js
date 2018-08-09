@@ -1,12 +1,13 @@
 
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { unpersistMyInfo } from '../../services/persistence';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 const NavBarLink = ({ label, to }) => (
     <li className="nav-item">
-        <NavLink className="nav-link" to={to}> {label} </NavLink>
+        <NavLink className="nav-link" activeClassName="active" to={to}> {label} </NavLink>
     </li>
 )
 const mapDispatchToProps = dispatch => ({
@@ -32,6 +33,10 @@ class PNavbar extends Component {
                     <ul className="navbar-nav mr-auto">
                         <NavBarLink to="/login" label="Login" />
                         <NavBarLink to="/signup" label="Signup" />
+                        {
+                            this.props.isAuthenticated &&
+                            <NavBarLink to="/profile" label="My Profile" />
+                        }
                     </ul>
                     {
                         this.props.isAuthenticated &&
@@ -48,5 +53,9 @@ class PNavbar extends Component {
     }
 }
 
-const Navbar = connect(mapStateToProps, mapDispatchToProps)(PNavbar)
+const Navbar = compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    withRouter,
+
+)(PNavbar)
 export default Navbar;

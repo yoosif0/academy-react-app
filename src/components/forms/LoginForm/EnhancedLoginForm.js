@@ -6,6 +6,7 @@ import { ApiService } from '../../../services/data.service';
 import { toast } from 'react-toastify';
 import { compose } from 'redux';
 import { persistMyInfo } from '../../../services/persistence';
+import { withRouter } from 'react-router-dom';
 
 
 const mapDispatchToProps = dispatch => ({
@@ -14,8 +15,9 @@ const mapDispatchToProps = dispatch => ({
 
 export const EnhancedLoginForm = compose(
   connect(null, mapDispatchToProps),
+  withRouter,
   withFormik({
-    mapPropsToValues: props => ({  email: 'ahmed@test.com', password: '1234567a', }),
+    mapPropsToValues: props => ({  email: '', password: '', }),
     validationSchema: Yup.object().shape({
       email: Yup.string().email('Email is invalid').required('Email is required'),
       password: Yup.string().required('Password is required'),
@@ -23,10 +25,11 @@ export const EnhancedLoginForm = compose(
     handleSubmit: ( values,  { props, setSubmitting,  setErrors ,}  ) => {
       return ApiService.login({email: values.email, password:values.password}).then(payload=>{
         setSubmitting(false)
-        toast.success("Signed up successfully")
+        toast.success("Logged in successfully")
         console.log(payload)
         props.loggedIn(payload)
         persistMyInfo(payload)
+        props.history.push('/profile')
 
       }).catch(err=>{
         console.log(err)

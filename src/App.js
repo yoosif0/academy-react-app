@@ -6,8 +6,14 @@ import Login from './components/routes/Login';
 import Signup from './components/routes/Signup';
 import MyProfile from './components/routes/MyProfile';
 import { ToastContainer } from 'react-toastify';
+import { PrivateRoute } from './components/HOC/PrivateRoute';
+import { connect } from 'react-redux';
 
-class App extends Component {
+const mapStateToProps = () => state => ({
+  isAuthenticated: state.isAuthenticated
+})
+
+class PApp extends Component {
   render() {
     return (
       <BrowserRouter>
@@ -16,7 +22,7 @@ class App extends Component {
           <div className="container">
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            <Route path="/profile" component={MyProfile} />
+            <PrivateRoute authed={this.props.isAuthenticated} path="/profile" component={MyProfile} />
           </div>
           <ToastContainer />
         </div>
@@ -25,5 +31,5 @@ class App extends Component {
     );
   }
 }
-
+const App = connect(mapStateToProps, {})(PApp)
 export default App;

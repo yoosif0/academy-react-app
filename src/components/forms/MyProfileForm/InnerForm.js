@@ -15,6 +15,7 @@ export const InnerForm = ({
     dirty
 }) => {
 
+
     return (
         <form onSubmit={handleSubmit}>
             <DefaultInput label="Email">
@@ -22,8 +23,9 @@ export const InnerForm = ({
                 {touched.email && errors.email && <ErrorText>{errors.email}</ErrorText>}
             </DefaultInput>
 
-            <DefaultInput label="Password">
-                <Field type="password" name="password" className="form-control" />
+            <DefaultInput label="Name">
+                <Field type="text" name="name" className="form-control" />
+                {touched.name && errors.name && <ErrorText>{errors.name}</ErrorText>}
             </DefaultInput>
 
             <button className="btn btn-default mt-4" type="submit" disabled={!dirty || isSubmitting || Object.keys(errors).length}>   Submit  </button>
